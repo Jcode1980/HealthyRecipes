@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Error</title>
+		<link rel="stylesheet" href="css/shared.css" type="text/css" media="screen" title="shared" charset="utf-8">
+		<script type="text/javascript" src="js/general.js"></script>
+		
+		<style type="text/css" media="screen">
+			#body {
+				background-color:white;
+			}
+			#notice {
+				width:500px;
+				margin-left:auto;
+				margin-right:auto;
+				font-color:#333;
+				margin-top:50px;
+				
+			}
+			#notice h1 {
+				font-color:#333;
+			}
+		</style>
+		
+	</head>
+	<body id="body">
+		
+		<div id="notice">			
+			<h1>Not Found</h1>
+			<p>Ooops, sorry we couldn't find what you were looking for.</p>
+			<br>
+		</div>	
+		
+	</body>
+</html>

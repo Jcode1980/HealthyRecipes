@@ -1,0 +1,8 @@
+# Enable this to allow URL routing to work.
+#
+RewriteEngine On
+RewriteBase /~john/HealthyRecipes/
+
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule ^([^\.]*)(\?(.*))?$ index.php?$2

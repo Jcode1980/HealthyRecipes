@@ -1,0 +1,137 @@
+<form action="" method="<?php echo $controller->formMethod(); ?>" name="mainForm" id="mainForm" enctype="multipart/form-data">
+    <input type="hidden" name="page" value="" id="page">
+    <input type="hidden" name="action" value="" id="action">
+	<input type="hidden" name="transactionID" value="<?php echo $_SESSION["transactionID"]; ?>" id="transactionID">
+	
+	
+	 <link rel="stylesheet" href="css/common.css">
+	<link rel="icon" href="images/template/template/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/template/grid.css">
+    <link rel="stylesheet" href="css/template/style.css">
+    <link rel="stylesheet" href="css/template/search.css">
+	
+
+    <script src="js/template/jquery.js"></script>
+    <script>jQuery.noConflict();</script>
+    <script src="js/template/jquery-migrate-1.2.1.js"></script>
+
+    <!--[if lt IE 9]>
+    <html class="lt-ie9">
+    <div style=' clear: both; text-align:center; position: relative;'>
+        <a href="http://windows.microsoft.com/en-US/internet-explorer/..">
+            <img src="images/template/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820"
+                 alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."/>
+        </a>
+    </div>
+    <script src="js/html5shiv.js"></script>
+    <![endif]-->
+
+    <script src='js/template/device.min.js'></script>
+    
+    <style>
+    
+    	
+    </style>
+   
+	    <header class="head_shadow">
+        <div class="bg-primary">
+            <div class="container">
+                <div class="info-box">
+                    <p>Free Phone:</p>
+                    <a class="fa-phone" href="callto:#">800-2345-6789</a>
+                    <a class="fa-envelope-o" href="mailto:#">info@demolink.org</a>
+                </div>
+            </div>
+        </div>
+        <div id="stuck_container" class="stuck_container">
+            <div class="container">
+                <div class="brand">
+                    <a href="./">
+                        <img src="images/template/brand.png" alt=""/>
+
+                        <h1 class="brand_name">Cooking School</h1>
+                    </a>
+                </div>
+
+                <nav class="nav">
+                    <ul class="sf-menu" data-type="navbar">
+                        <li>
+                            <a href="./">Home</a>
+                            <ul>
+                                <li>
+                                    <a href="#">Incididunt ut labore</a>
+                                </li>
+                                <li>
+                                    <a href="#">Et dolore magna aliqua</a>
+                                </li>
+                                <li>
+                                    <a href="#">Ut enim ad minim veniam</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#">Lorem</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Dolor</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Sit amet</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Quis nostrud exercitation</a>
+                                </li>
+                                <li>
+                                    <a href="#">Lorem ipsum dolor</a>
+                                </li>
+                                <li>
+                                    <a href="#">Conse ctetur adipisicing</a>
+                                </li>
+                                <li>
+                                    <a href="#">Elit sed do eiusmod tempor</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="active">
+                            <a href="index-1.html">About</a>
+                        </li>
+                        <li>
+                            <a href="index-2.html">Courses</a>
+                        </li>
+                        <li>
+                            	 <?php addSubmitButtonWithActions("New Recipe", array("page" => "RecipePageEdit", "action" => "doNothing")); ?>
+                        </li>
+                         <li>
+                            	 <?php addSubmitButtonWithActions("RecipeList", array("page" => "RecipeList", "action" => "doNothing")); ?>
+                        </li>
+                        <li>
+                            <a href="index-4.html">Contacts</a>
+                        </li>
+                    </ul>
+                    <form class="search-form" action="search.php" method="GET" accept-charset="utf-8">
+                        <label class="search-form_label">
+                            <input class="search-form_input" type="text" name="s" autocomplete="off"/>
+                            <span class="search-form_liveout"></span>
+                        </label>
+                        <button class="search-form_submit fa-search" type="submit"></button>
+                </nav>
+            </div>
+        </div>
+    </header>
+	<div class="container">
+	<?php if ($controller->errorMessage) : ?>
+		<div id="errorMessage">
+			<?php echo $controller->errorMessage; ?>
+		</div>
+	<?php endif; ?>
+
+	<?php if ($controller->alertMessage) : ?>
+		<div id="alertMessage">
+			<?php echo $controller->alertMessage; ?>
+		</div>
+	<?php endif; ?>
+	
+	<?php $controller->renderInnerTemplate(); ?>
+	</div>
+
+</form>

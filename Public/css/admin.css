@@ -1,0 +1,196 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 26/03/2014, 4:21:29 PM
+    Author     : oliver
+*/
+
+body {
+    font-size:13px;
+    color:#333;
+}
+
+#header {
+	position:relative;
+    padding-top:5px;
+    padding-left:10px;
+    padding-bottom:5px;
+}
+img.mainLogo {
+    max-width: 400px;
+    max-height: 200px;
+}
+
+img.otherLogo {
+    float:right;
+}
+
+/* === Convenience Classes === */
+.hidden {
+    display: none;
+}
+
+.clear {
+    clear: both;
+}
+
+.admin {
+    display: none;
+}
+
+#tableTitle {
+    font-size: 14pt;
+    font-weight: bold;
+    max-width: 100%;
+    border-bottom: 1px solid #CCC;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    color: #FFAA11;
+}
+
+/* ==== buttons ==== */
+input[type=submit], input[type=button] {
+	border:1px solid #999;
+	border-radius:0;
+	font-size:13px;
+	color:#111;
+	background-image:url(../images/buttonGradient.png);
+	background-color:#eee;
+    height:auto;
+    padding:5px;
+    margin:5px;
+}
+input[type=submit]:active, input[type=button]:active {
+	background-image:url(../images/buttonGradientPressed.png);
+	background-color:#888;
+	color:#999;
+}
+input[type=submit]:disabled, input[type=button]:disabled {
+	background-image:url(../images/buttonGradientDisabled.png);
+	color:#999;
+}
+input[type=submit].small, input[type=button].small {
+	border:1px solid #999;
+	border-radius:0;
+	color:#111;
+	background-image:url(../images/buttonGradient.png);
+	background-color:#eee;
+	font-size:9px;
+}
+input[type=submit].small:active, input[type=button].small:active {
+	background-image:url(../images/buttonGradientPressed.png);
+	background-color:#888;
+	color:#999;
+}
+input[type=submit].small:disabled, input[type=button].small:disabled {
+	background-image:url(../images/buttonGradientDisabled.png);
+	color:#999;
+}
+
+input[type=text], input[type=password] {
+    background-color:white;
+    font-size:11px;
+    padding:5px;
+    border:1px solid #888;
+    color:black;
+    margin-bottom:inherit;
+}
+
+
+textarea {
+	border:1px solid #888888;
+	background:white;
+	color:black;
+	padding:4px;
+}
+select {
+	border:1px solid #ccc;
+}
+select.small {
+	font-size:9px;
+}
+
+
+/* CUSTOM INPUT */
+.select-holder .holder{
+    display: block;
+    margin: 2px 35px 0 10px;
+    white-space: nowrap;            
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    color: black;
+    padding: 10px;
+
+}
+
+input[readonly][type=text] {
+    border: none;
+    background: transparent;
+}
+
+
+.select-holder {
+    background: url('../images/sel-arrow.png') right no-repeat #FFF;
+    border: thin solid black;
+    width: 100%;
+    overflow: hidden;
+    display: block;
+    vertical-align: middle;
+    position: relative;
+    
+}
+
+.select-holder.disabled {
+    background: #FFF; 
+    border: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.select-holder.disabled select {
+    background: #FFF; 
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    cursor: default;
+}
+
+.select-holder.disabled span.holder {
+    padding: 5px;
+    margin: 0px;
+}
+
+.select-holder.hidden {
+    display: none;
+}
+
+.select-holder select {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 10px;
+    height: auto !important;
+    color: #333;
+    float: none;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    z-index: 2;            
+    cursor: pointer;
+    outline: none;
+    opacity: 0;
+    font-size: 12pt;
+    
+    /* CSS hacks for older browsers */
+    _noFocusLine: expression(this.hideFocus=true); 
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    -khtml-opacity: 0;
+    -moz-opacity: 0;
+}

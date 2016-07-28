@@ -1,0 +1,92 @@
+<input type='hidden' name='selectedImageID' id='selectedImagaeID' value=''/>
+<input type="hidden" name="type" value="" id="type"/>
+
+<div id="editDiv">
+    
+    <div id="tableTitle">
+        Edit MealType
+        <!-- Save -->
+        <div id="editSubmit">
+            <?php addSubmitButtonWithActions("Delete", array("page" => "MealTypeEdit", "action" => "delete"), null, null, "confirmDelete()"); ?>
+            &nbsp;|&nbsp;
+            <?php 
+                addSubmitButtonWithActions("Back", array("page" => "MealTypeEdit", "action" => "cancel"));
+                addSubmitButtonWithActions("Save", array("page" => "MealTypeEdit", "action" => "save"));
+            ?>
+        </div>
+        <div class="clear" ></div>
+    </div>
+    
+    <!-- Details -->
+    <div id="editDetails" class="editSection">
+        <div class='section-header'>MealType Details</div>
+        <div class='section-content'>
+            <table id="editDetailsTable">
+                <?php
+                    printEditForm(array(
+                      "Name" => array("type" => "text", "keypath" => "currentEntity.name")
+                    ), $controller, array("labelClass" => "labels"));
+                ?>
+            </table>	
+        </div>
+    </div>
+
+    <!-- Images -->
+    <div id="editImages" class="editSection">
+        <div class='section-header'>MealType Images</div>
+        <div class='section-content'>
+        <?php
+            $images = array();  
+            if ($controller->currentEntity()->relationshipForName("images"))
+            {
+                $images = $controller->currentEntity()->arrayValueForRelationship("images");
+            }
+            if (count($images) > 0) : ?>
+
+                <table id="imagesTable">
+					<thead>
+						<tr>
+							<th>Image</th>
+							<th>Primary</th>
+							<th>Options</th>
+						</tr>
+					</thead>
+                    
+					<tbody>
+	                <?php foreach ($images as $image) : ?>
+	                    <tr>
+	                        <td>
+	                            <img src="<?php echo $image->thumbnailImagePath(); ?>" class="editform" />
+	                        </td>	
+							<td>
+								<?php addRadioButton("currentEntity.mainImageID", $image->field("id"), $controller->formValueForKeyPath("currentEntity.mainImageID")); ?>
+							</td>
+	                        <td class="submitColumn">
+	                            <?php addSubmitButtonWithActions("Delete", array("page" => "MealTypeEdit", "action" => "deleteRelatedRecord",
+	                                "selectedImageID" => $image->field("id"), "type" => "Image"), "small", null, "confirmDelete('image')");
+	                            ?>
+	                        </td>
+	                    </tr>	
+	            	<?php endforeach; ?>
+					</tbody>
+                </table>
+                
+            <?php else : ?>
+                
+                <p>No Images</p>
+                
+            <?php endif; ?>	
+        </div>
+    </div><!-- EditImages -->
+
+    <!-- Image Upload -->
+    <div id="editUploadImages" class="editSection">
+        <div class='section-header'>Upload Images</div>
+        <div class='newImageUpload section-content'>
+                <input type="file" name="image" value="" id="image1" />
+            <?php addSubmitButtonWithActions("Upload", array("page" => "MealTypeEdit", "action" => "processImages"), "small", null, null, ! $controller->currentEntity()->primaryKeys); ?>
+        </div>
+    </div>
+                
+</div>
+

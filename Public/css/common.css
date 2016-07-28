@@ -1,0 +1,19 @@
+.line-separator{
+
+height:1px;
+
+background:#717171;
+
+border-bottom:3px solid #eee;
+}
+
+.heading{
+	font-size:22px;
+	color:#777777;
+	#font-weight:bold;
+}
+
+.smallIcon{
+	height:15px;
+	width:15px;
+}

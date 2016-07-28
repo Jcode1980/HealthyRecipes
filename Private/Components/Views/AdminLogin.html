@@ -1,0 +1,224 @@
+<?php
+ $page = doEncrypt("AdminLogin"); 
+ $action = doEncrypt("validateLogin"); 
+ $actionRemind = doEncrypt("sendPasswordReminder")
+?>
+ 
+ <style type="text/css" media="screen">
+ html {
+	height:100%;
+	overflow:hidden;
+ }
+ body {
+	background: #4b4b4b; /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover, #4b4b4b 0%, #000000 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#4b4b4b), color-stop(100%,#000000)); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover, #4b4b4b 0%,#000000 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover, #4b4b4b 0%,#000000 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover, #4b4b4b 0%,#000000 100%); /* IE10+ */
+	background: radial-gradient(center, ellipse cover, #4b4b4b 0%,#000000 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4b4b4b', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	height:100%;
+ }
+ 
+ #loginPanel {
+	margin-left:auto;
+	margin-right:auto;
+	border:1px solid #111;
+	border-radius:16px;
+	-webkit-border-radius:16px;
+	-moz-border-radius:16px;
+	-moz-box-shadow:1px 16px 16px 4px #222;
+	-webkit-box-shadow:1px 16px 16px 4px #222;
+	box-shadow:1px 8px 16px 16px #222;
+	margin-top:150px;
+    font-size:16px;
+
+	background: #ededed; /* Old browsers */
+	background: -moz-linear-gradient(top, #ededed 0%, #898989 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#898989)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #ededed 0%,#898989 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #ededed 0%,#898989 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #ededed 0%,#898989 100%); /* IE10+ */
+	background: linear-gradient(top, #ededed 0%,#898989 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#898989',GradientType=0 ); /* IE6-9 */
+ }
+ 
+#loginPanel input[type=text], input[type=password] {
+	color:#444;
+	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	background-color:white;
+}
+#loginPanel input[type=text]:focus, input[type=password]:focus {
+	border:2px solid #92CEE1;
+	color:#666;
+	background-color:#fff;
+}
+#loginPanel input::-webkit-input-placeholder  {
+	color:#666; 
+}
+#loginPanel input:-moz-placeholder {
+    color:#666; 
+}
+input[type=submit], input[type=button] {
+	border:1px solid #999;
+	padding:8px;
+	font-size:14px;
+	border:1px solid #999;
+	background-size:100% 100%;
+	color:#444;
+	padding-left:20px;
+	padding-right:20px;
+	text-shadow: 0px 1px 0px #f2f2f2;
+	font-weight:bold;
+    background-image:url(images/buttonGradient.png);
+}
+input[type=submit]:active, input[type=button]:active {
+	background-image:url(images/buttonGradientPressed.png);
+	background-color:#888;
+	color:#999;
+}
+input[type=submit]:disabled, input[type=button]:disabled {
+	background-image:url(images/buttonGradientDisabled.png);
+	color:#999;
+}
+
+a.forgot {
+	font-size:12px;
+	color:#777 !important;
+}
+
+ </style>
+
+<div id="loginHolder">
+<!-- LOGIN PANEL-->
+    <div id="loginPanel" class="centered" style="display:none;">
+
+        <?php if (file_exists("images/icon.png")) : ?>
+
+        <img src="images/icon.png" id="logo" class="centered">
+
+        <?php endif; ?>	
+
+        <h1><?php echo appName(); ?></h1>
+        <h4>Administration Login</h4>
+
+        <dl>
+
+            <div>
+                <dt></dt>
+                <dd>
+                    <input type="text" name="login" value="" id="login" placeholder="login">
+                </dd>
+            </div>
+
+            <div>
+                <dt></dt>
+                <dd>
+                    <input type="password" name="password" value="" id="password" placeholder="password">
+                </dd>
+            </div>
+
+            <div id="submit">
+                <div id="keep">
+                    <input type="checkbox" name="keepSignedIn" value="1" id="keepSignedIn"> Keep me signed in
+                </div>
+                <div id="progressSC" style="display:none;"><img src="images/spinner-black.gif"></div>
+                <input type="button" name="signin" value="Sign In" onclick="validateLogin('<?php echo $page; ?>', '<?php echo $action; ?>' );" class="standardButton" id="loginButton" disabled>
+            </div>
+
+        </dl>	
+
+        <div id="loginError"></div>
+
+    </div>
+
+
+    <!-- FORGOT PASSWORD -->
+    <div id="forgotPasswordTable" class="centered" style="display:none;">
+
+        <h1>Password Reminder</h1>
+
+        <dl>
+
+<div id="loginPanel" class="centered" style="display:none;">
+	
+	<?php if (file_exists("images/icon.png")) : ?>
+		
+		<img src="images/icon.png" id="logo" class="centered">
+		
+	<?php endif; ?>	
+		
+	<h1><?php echo appName(); ?></h1>
+	<h4>Administration Login</h4>
+	
+	<dl>
+		
+		<div>
+			<dt></dt>
+			<dd>
+				<input type="text" name="login" value="" id="login" placeholder="login">
+			</dd>
+		</div>
+		
+		<div>
+			<dt><!-- Password reminder here if needed. --></dt>
+			<dd>
+				<input type="password" name="password" value="" id="password" placeholder="password">
+			</dd>
+		</div>
+		
+		<div id="submit">
+            <div id="keep">
+                <input type="checkbox" name="keepSignedIn" value="1" id="keepSignedIn"> Keep me signed in
+            </div>
+            <div>
+                <dt><a href="javascript: showLoginPanel();" class="forgot">Back to login</a></dt>
+                <dd></dd>
+            </div>
+
+            <div id="submit">
+                <div id="progressSCC" style="display:none;"><img src="images/spinner-black.gif"></div>
+                <input type="button" name="reminder" id="reminder" value="Send Reminder" onclick="sendReminder('<?php echo $page; ?>', '<?php echo $actionRemind; ?>');" disabled=true>
+            </div>
+
+        </dl>	
+
+        <div id="reminderError"></div>
+        <div id="alertMsg"></div>
+
+    </div>
+
+
+
+
+
+
+    <!-- JAVASCRIPT VERIFICATION -->
+    <noscript>
+    <div id="javascriptPanel">
+        <img src="images/javascriptLogo.png" width="200" height="164"><br>
+        <h3>Javascript is not turned on in your browser</h3>
+        Before you can proceed you need to turn javascript on through your browser settings.
+        <br><br>
+    </div>
+    </noscript>
+
+
+</div>
+
+<script type="text/javascript">
+    el_id("loginPanel").style.display = "block";
+
+    if (top == self) {
+    el_id("loginButton").disabled = false;
+            el_id("reminder").disabled = false;
+    }
+    <?php if ($controller -> errorMessage): ?>
+            var errorPanel = el_id("loginError");
+    errorPanel.innerHTML = "<?php echo $controller->errorMessage; ?>";
+    errorPanel.style.display = "block";
+            <?php endif; ?>
+</script>

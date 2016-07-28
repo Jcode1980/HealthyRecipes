@@ -1,0 +1,58 @@
+<input type="hidden" name="likeRecipeID" value="<?php echo $controller->formValueForKey("likeRecipeID"); ?>" id="likeRecipeID">
+<script>
+    function showFilters() {
+        if($('#filter-row').is(':visible')) {
+            $('#filter-row input').slideUp( "fast" );            
+            $('#filter-row').slideUp( "fast" );
+        } else {
+            $('#filter-row').slideDown( "fast" );
+            $('#filter-row input').slideDown( "fast" );
+        }
+    }
+    function addRecipe() {
+        document.location = "RecipeEdit";
+    }
+</script>
+
+<?php 
+    $displayGroup = $controller->displayGroup();
+    $headers = $controller->headers();
+?>
+
+<div id="resultsList">
+       <div class="toolbar">
+        <div class="toolbar-buttons">
+            <?php addInputButtonWithActions("Add Recipe", array(), null, null, 'addRecipe()'); ?>
+        </div>
+    </div>
+
+    <div id="tableTitle">
+        Recipes
+    </div>
+ 
+   
+
+    <div class='tr results_table'>
+        <table id="tbl_res_list" class="resultsListTable">
+            <tr>
+            	
+            	<?php foreach ($displayGroup->objects() as $row) : ?>
+            	<td> 
+            		<div class=recipeContainer>
+					<div class =recipeImage>
+						<img src="<?php echo $row->valueForRelationship("mainImage")->thumbnailImagePath(); ?>" class="editform" />	
+					</div>	
+					<div class="recipeActions">
+						<span style="float:right;"><?php 
+							addSubmitLinkWithActions("mainForm",  array("page" => "RecipeList", "action" => "likeRecipeToggle", "likeRecipeID" => $row->vars["id"]), null, $controller->likesImageString($row), "smallIcon"); ?></span>
+						<span><?php addLinkWithParams("Edit", "RecipeEdit/" . $row->field("id"), array()); ?>
+					</div>
+					
+				</td>	
+            	<?php endforeach; ?>
+            <tr>
+        </table>
+    </div>
+
+    
+</div>

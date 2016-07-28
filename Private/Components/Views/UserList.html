@@ -1,0 +1,65 @@
+<script>
+    function showFilters() {
+        if($('#filter-row').is(':visible')) {
+            $('#filter-row input').slideUp( "fast" );            
+            $('#filter-row').slideUp( "fast" );
+        } else {
+            $('#filter-row').slideDown( "fast" );
+            $('#filter-row input').slideDown( "fast" );
+        }
+    }
+    function addUser() {
+        document.location = "UserEdit";
+    }
+</script>
+
+<?php 
+    $displayGroup = $controller->displayGroup();
+    $headers = $controller->headers();
+?>
+
+<div id="resultsList">
+    
+
+    <div id="tableTitle">
+        Users
+    </div>
+    <div class="toolbar">
+        <?php printPagedTableToolbar($controller, "UserList", null, $displayGroup, $headers); ?>
+
+        <div class="toolbar-buttons">
+            <?php addInputButtonWithActions("Add User", array(), null, null, 'addUser()'); ?>
+            
+            <!-- Show Filter Row -->
+            <?php addInputButtonWithActions("Filter", array(), null, null, 'showFilters();'); ?>
+        </div>
+    </div>
+
+    <div class='tr results_table'>
+        <table id="tbl_res_list" class="resultsListTable">
+            <thead class="resultsListTable">
+                <tr>
+                    <?php
+                          printSortableHeaders($controller, $headers, 'UserList');
+                    ?>
+                </tr>
+            </thead>
+            <tbody class="results_list">
+                <tr id='filter-row' class="filter-row">
+                    <!-- Add available filters -->
+                    <?php $controller->printFilters(); ?>
+                </tr>
+                <?php foreach ($displayGroup->objects() as $row) : ?>
+                    <tr class='tr_normal'>
+                        <?php foreach ($headers as $header => $keyPath) : ?>
+							<td>
+                                <?php $controller->printField($header, $row->valueForKeyPath($keyPath), $row->field("id"), $row); ?>
+                            </td>
+                        <?php endforeach; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    
+</div>

@@ -1,0 +1,198 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 26/03/2014, 4:21:29 PM
+    Author     : oliver
+*/
+
+
+h1 {
+	text-align:center;
+}
+h4 {
+	text-align:center;
+	font-weight:normal;
+}
+
+#javascriptPanel {
+	font-style:italic;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:100px;
+	width:360px;
+	font-size:14px;
+	color:#555;
+	text-align:center;
+}
+
+a.forgot {
+	font-size:12px;
+	color:#777 !important;
+}
+
+
+/* ==== buttons ==== */
+
+
+input[type=button].signin {
+	background-color:#4C57E4;
+}
+input[type=button].signin:active {
+	background-color:#3B44B7;
+}
+
+body {
+	background-color:white;
+	font-family:Helvetica, Arial, sans-serif;
+}
+	
+
+
+
+/* RESPONSIVE */
+
+/* ==== buttons ==== */
+	
+	input[type=submit], input[type=button] {
+		width:100%;
+		padding:15px;
+		padding-right:30px;
+		padding-left:30px;
+		font-size:16px;
+		border:none;
+		background:none;
+		background-color:#ADAFAC;
+		color:white;
+		margin-right:0;
+		margin-left:auto;
+		-webkit-appearance:none;
+	}
+	input[type=submit]:active, input[type=button]:active {
+		background-color:#828381;
+		background-image:none;
+		color:#999;
+	}
+	input[type=submit]:disabled, input[type=button]:disabled {
+		background-image:#eee;
+		color:#999;
+	}
+	input[type=submit].small, input[type=button].small {
+		font-size:9px;
+	}
+
+@media only screen and (min-width:780px) {
+
+	input[type=submit], input[type=button] {
+		width:auto;
+	}
+}
+
+
+/* ==== Box ==== */
+	
+	dl {
+		width:100%;
+	}
+	dt {
+		display:block;
+		text-align:left;
+		font-size:1.4em;
+		color:#444;
+	}
+	dd {
+		display:block;
+		text-align:left;
+		-webkit-margin-start:0;
+                margin-left: 0px;
+	}
+	dl div {
+		margin:10px;
+	}
+	dd input[type=text], dd input[type=password] {
+		width:100%;
+		background-color:#eee;
+		padding:12px;
+		margin-bottom:15px;
+		font-size:16px;
+		border:none;
+	}
+	
+	dd a {
+		color:blue;
+		text-decoration:underline;
+		font-size:0.8em;
+	}
+	
+	#loginError, #alertMsg, #reminderError {
+		display:none;
+		text-align:center;
+		color:red;
+		font-size:0.9em;
+        margin-top:10px;
+        margin-bottom:10px;
+	}
+	#alertMsg {
+		color:green;
+	}
+	
+	#loginPanel, #forgotPasswordTable {
+		width:98%;
+		margin-top:100px;
+		background-color:white;
+		position:relative;
+		margin-left:auto;
+		margin-right:auto;
+	}
+    
+    #progressSC, #progressSCC {
+        margin-top:-30px;
+        float:right;
+    }
+
+@media only screen and (min-width:780px) {
+	
+	#logo {
+		width:128px;
+	}
+	
+	h1 {
+		font-size:24px;
+		color:#555;
+		text-align:center;
+	}
+	
+	#loginPanel, #forgotPasswordTable {
+		width:400px;
+		border:1px solid #888;
+	}
+	
+	dt {
+		font-size:1.0em;
+		padding-left:10px;
+	}
+	dd {
+		display:table-cell;
+		text-align:left;
+		padding-left:5px;
+		width:100%;
+	}
+	dd input[type=text], dd input[type=password] {
+		width:370px;
+	}
+	
+	#submit {
+		text-align:right;
+	}
+	#progressSC, #progressSCC {
+		display:inline;
+        float:none;
+        margin-top:0;
+	}
+    
+    #keep {
+        float:left;
+    }
+}

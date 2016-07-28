@@ -1,0 +1,366 @@
+<style type="text/css" media="screen">
+
+h1 {
+	text-align:center;
+}
+h4 {
+	text-align:center;
+	font-weight:normal;
+}
+
+#javascriptPanel {
+	font-style:italic;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:100px;
+	width:360px;
+	font-size:14px;
+	color:#555;
+	text-align:center;
+}
+
+a.forgot {
+	font-size:12px;
+	color:#777 !important;
+}
+
+/* ==== buttons ==== */
+@media only screen and (min-width:320px) {
+	
+	input[type=submit], input[type=button] {
+		width:100%;
+		padding:15px;
+		padding-right:30px;
+		padding-left:30px;
+		font-size:16px;
+		border:none;
+		background:none;
+		background-color:#ADAFAC;
+		color:white;
+		margin-right:0;
+		margin-left:auto;
+		-webkit-appearance:none;
+	}
+	input[type=submit]:active, input[type=button]:active {
+		background-color:#828381;
+		background-image:none;
+		color:#999;
+	}
+	input[type=submit]:disabled, input[type=button]:disabled {
+		background-image:#eee;
+		color:#999;
+	}
+	input[type=submit].small, input[type=button].small {
+		font-size:9px;
+	}
+}
+
+@media only screen and (min-width:780px) {
+
+	input[type=submit], input[type=button] {
+		width:auto;
+	}
+}
+
+input[type=button].signin {
+	background-color:#4C57E4;
+}
+input[type=button].signin:active {
+	background-color:#3B44B7;
+}
+
+body {
+	background-color:white;
+	font-family:Helvetica, Arial, sans-serif;
+}
+	
+@media only screen and (min-width:320px) {
+	
+	dl {
+		width:100%;
+	}
+	dt {
+		display:block;
+		text-align:left;
+		font-size:1.4em;
+		color:#444;
+	}
+	dd {
+		display:block;
+		text-align:left;
+		-webkit-margin-start:0;
+	}
+	dl div {
+		margin:10px;
+	}
+	dd input[type=text], dd input[type=password] {
+		width:100%;
+		background-color:#eee;
+		padding:12px;
+		margin-bottom:15px;
+		font-size:16px;
+		border:none;
+	}
+	
+	dd a {
+		color:blue;
+		text-decoration:underline;
+		font-size:0.8em;
+	}
+	
+	#loginError, #alertMsg, #reminderError {
+		display:none;
+		text-align:center;
+		color:red;
+		font-size:0.9em;
+        margin-top:10px;
+        margin-bottom:10px;
+	}
+	#alertMsg {
+		color:green;
+	}
+	
+	#loginPanel, #forgotPasswordTable {
+		width:98%;
+		margin-top:100px;
+		background-color:white;
+		position:relative;
+		margin-left:auto;
+		margin-right:auto;
+        padding-top:20px;
+	}
+    
+    #progressSC, #progressSCC {
+        margin-top:-30px;
+        float:right;
+    }
+}
+
+@media only screen and (min-width:780px) {
+	
+	#logo {
+		width:128px;
+	}
+	
+	h1 {
+		font-size:24px;
+		color:#555;
+		text-align:center;
+	}
+	
+	#loginPanel, #forgotPasswordTable {
+		width:400px;
+		border:1px solid #888;
+        padding-top:20px;
+	}
+	
+	dt {
+		font-size:1.0em;
+		padding-left:10px;
+	}
+	dd {
+		display:table-cell;
+		text-align:left;
+		padding-left:5px;
+		width:100%;
+	}
+	dd input[type=text], dd input[type=password] {
+		width:370px;
+	}
+	
+	#submit {
+		text-align:right;
+	}
+	#progressSC, #progressSCC {
+		display:inline;
+        float:none;
+        margin-top:0;
+	}
+    
+    #keep {
+        float:left;
+    }
+}
+</style>
+
+<script type="text/javascript" charset="utf-8">
+	
+    function validateLogin() {
+        var error = el_id("loginError");
+        error.style.display = "none";
+        el_id("alertMsg").style.display = "none";
+        var progress = el_id("progressSC");
+        progress.style.display = "inline";
+        
+        var login = encodeURIComponent(el_id("login").value);
+        var password = encodeURIComponent(el_id("password").value);
+        var page = "<?php echo doEncrypt("Login"); ?>";
+        var action = "<?php echo doEncrypt("validateLogin"); ?>";
+        var data = "page="+page+"&action="+action+"&login="+login+"&password="+password;
+        sendRequest("index.php", data, function(originalQuery, response) {
+            var result = safeJSON(response);
+            if (result == null) {
+                console.error(result);
+                return;
+            }
+            if (result["error"] != 0) {
+                error.style.display = "block";
+                error.innerHTML = result["message"];
+                Effect.Shake("loginPanel");
+            }
+            else {
+                window.location = window.location;
+            }
+            progress.style.display = "none";
+        }, 
+        function(originalQuery, errorResponse) {
+            error.style.display = "block";
+            el_id("loginError").value = "There was a problem trying to log you in, please try again later.";
+            progress.style.display = "none";
+        });
+    }
+    
+    function sendReminder() {
+        var error = el_id("reminderError");
+        error.style.display = "none";
+        el_id("alertMsg").style.display = "none";
+        var progress = el_id("progressSCC");
+        progress.style.display = "inline";
+        
+        var email = el_id("email").value;
+        var page = "<?php echo doEncrypt("AdminLogin"); ?>";
+        var action = "<?php echo doEncrypt("sendPasswordReminder"); ?>";
+        var data = "page="+page+"&action="+action+"&email="+email;
+        sendRequest("index.php", data, function(originalQuery, response) {
+            var result = safeJSON(response);
+            if (result == null) {
+                console.error(result);
+                return;
+            }
+            if (result["error"] != 0) {
+                error.style.display = "block";
+                error.innerHTML = result["message"];
+                Effect.Shake("forgotPasswordTable");
+            }
+            else {
+                var alertMsg = el_id("alertMsg");
+                alertMsg.style.display = "block";
+                alertMsg.innerHTML = "A reminder has been sent to this address.";
+            }
+            progress.style.display = "none";
+        }, 
+        function(originalQuery, errorResponse) {
+            error.style.display = "block";
+            el_id("loginError").value = "There was a problem trying to log you in, please try again later.";
+            progress.style.display = "none";
+        });
+    }
+	
+	function showForgotPassword() {
+		var error = el_id("reminderError");
+		if (error != null)
+			error.style.display = "none";
+		el_id("loginPanel").style.display = "none";
+		new Effect.Appear("forgotPasswordTable", { duration:0.8 });		
+	}
+	
+	function showLoginPanel() {
+		var error = el_id("loginError");
+		if (error != null)
+			error.style.display = "none";
+		el_id("forgotPasswordTable").style.display = "none";
+		new Effect.Appear("loginPanel", { duration:0.8 });	
+	}
+</script>
+
+<div id="loginPanel" class="centered" style="display:none;">
+	
+	<?php if (file_exists("images/icon.png")) : ?>
+		
+		<img src="images/icon.png" id="logo" class="centered">
+		
+	<?php endif; ?>	
+		
+	<h1><?php echo appName(); ?></h1>
+	
+	<dl>
+		
+		<div>
+			<dt></dt>
+			<dd>
+				<input type="text" name="login" value="" id="login" placeholder="email">
+			</dd>
+		</div>
+		
+		<div>
+			<dt><span style="float:right;"><a href="javascript: showForgotPassword();" class="forgot">Forgot your password?</a></span></dt>
+			<dd>
+				<input type="password" name="password" value="" id="password" placeholder="password">
+			</dd>
+		</div>
+		
+		<div id="submit">
+            <div id="keep">
+                <input type="checkbox" name="keepSignedIn" value="1" id="keepSignedIn"> Keep me signed in
+            </div>
+			<div id="progressSC" style="display:none;"><img src="images/spinner-black.gif"></div>
+			<input type="button" name="signin" value="Sign In" onclick="validateLogin();" class="standardButton" id="loginButton" disabled>
+		</div>
+		
+	</dl>	
+    
+	<div id="loginError"></div>
+	
+</div>
+
+<div id="forgotPasswordTable" class="centered" style="display:none;">
+		
+	<h1>Password Reminder</h1>
+	
+	<dl>
+		
+		<div>
+			<dt>Email</dt>
+			<dd>
+				<input type="text" name="email" value="" id="email" placeholder="email">
+			</dd>
+		</div>
+		<div>
+			<dt><a href="javascript: showLoginPanel();" class="forgot">Back to login</a></dt>
+			<dd></dd>
+		</div>
+		
+		<div id="submit">
+			<div id="progressSCC" style="display:none;"><img src="images/spinner-black.gif"></div>
+			<input type="button" name="reminder" id="reminder" value="Send Reminder" onclick="sendReminder();" disabled=true>
+		</div>
+				
+	</dl>	
+	
+	<div id="reminderError"></div>
+	<div id="alertMsg"></div>
+	
+</div>
+	
+<noscript>
+	<div id="javascriptPanel">
+		<img src="images/javascriptLogo.png" width="200" height="164"><br>
+		<h3>Javascript is not turned on in your browser</h3>
+		Before you can proceed you need to turn javascript on through your browser settings.
+		<br><br>
+	</div>
+</noscript>
+
+<script type="text/javascript">
+	el_id("loginPanel").style.display = "block";
+
+	if (top == self) {
+		el_id("loginButton").disabled = false;
+		el_id("reminder").disabled = false;
+	}
+	<?php if ($controller->errorMessage) : ?>
+	    var errorPanel = el_id("loginError");
+	    errorPanel.innerHTML = "<?php echo $controller->errorMessage; ?>";
+	    errorPanel.style.display = "block";
+	<?php endif; ?>
+</script>

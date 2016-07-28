@@ -1,0 +1,68 @@
+<?php 
+	require_once BLOGIC."/BLogic.php"; 
+	require_once ROOT."/Components/Controllers/SessionController.php";
+		
+	class PageWrapper extends SessionController 
+	{ 
+		protected $innerTemplate;
+		protected $hasInvalidTransactionID = false;
+		
+		public $errorMessage;
+		public $alertMessage;
+		
+		public function __construct($formData, $innerTemplate) 
+		{ 
+			parent::__construct($formData, "PageWrapper"); 
+			$this->innerTemplate = $this->templateForName($innerTemplate);
+			$this->innerTemplate->set("controller", $this);
+		} 
+		
+		// prevent page reloads and back button from repeating previous actions.
+		public function handleRequest()
+		{
+			$page = parent::handleRequest();
+			if ($page)
+				return $page;
+			if (empty($_SESSION["transactionID"]) || $this->formValueForKey("transactionID") != $_SESSION["transactionID"])
+			{
+				$this->hasInvalidTransactionID = true;
+			}
+			$_SESSION["transactionID"] = uniqid();
+		}
+		
+		public function renderInnerTemplate()
+		{
+			echo $this->innerTemplate->fetch();
+		}
+		
+		public function hasInvalidTransactionID()
+		{
+			return $this->hasInvalidTransactionID;
+		}
+		
+		public function formMethod()
+		{
+			return "post";
+		}
+        
+        public function metaKeywords()
+        {
+            return appName();
+        }
+        
+        public function metaDescription()
+        {
+            return "";
+        }
+        
+        public function pageTitle()
+        {
+            return appName();
+        }
+        
+        public function conocialURL()
+        {
+            return domainName()."/".$this->className();
+        }
+	} 
+?>

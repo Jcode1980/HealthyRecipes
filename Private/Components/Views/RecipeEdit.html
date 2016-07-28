@@ -1,0 +1,202 @@
+<input type='hidden' name='selectedImageID' id='selectedImagaeID' value=''/>
+<input type="hidden" name="type" value="" id="type"/>
+<input type="hidden" name="selectedIngredientID" value="<?php echo $controller->formValueForKey("selectedIngredientID"); ?>" id="selectedIngredientID">
+<input type="hidden" name="selectedInstructionID" value="<?php echo $controller->formValueForKey("selectedInstructionID"); ?>" id="selectedInstructionID">
+<input type="hidden" name="selectedCommentID" value="<?php echo $controller->formValueForKey("selectedCommentID"); ?>" id="selectedCommentID">
+<input type="hidden" name="objectForDeletionID" value="<?php echo $controller->formValueForKey("objectForDeletionID"); ?>" id="objectForDeletionID">
+
+<div id="editDiv">
+    
+    <div id="tableTitle">
+        Edit Recipe
+        <!-- Save -->
+            <?php addSubmitButtonWithActions("Delete", array("page" => "RecipeEdit", "action" => "delete"), null, null, "confirmDelete()"); ?>
+            &nbsp;|&nbsp;
+            <?php 
+                addSubmitButtonWithActions("Back", array("page" => "RecipeEdit", "action" => "cancel"));
+                addSubmitButtonWithActions("Save", array("page" => "RecipeEdit", "action" => "save"));
+            ?>
+        </div>
+        <div class="clear" ></div>
+    </div>
+    
+    <!-- Details -->
+    <div id="editDetails" class="editSection">
+        <div class='section-header'>Recipe Details</div>
+        <div class='section-content'>
+            <table id="editDetailsTable">
+                <?php
+                    printEditForm(array(
+                      "Name" => array("type" => "text", "keypath" => "currentEntity.name"),
+                      "Description" => array("type" => "textarea", "keypath" => "currentEntity.recipeDescription")
+                    
+                    ), $controller, array("labelClass" => "labels"));
+                ?>
+            </table>	
+            
+            <div>
+            	Food Type: <select name="mealTypeSelection" id="mealTypeSelection">
+   	 		<?php $mealTypes = $controller->mealTypesArray(); 
+   	 		debugln("number of meal types?? " . count($mealTypes));
+   	 			foreach($mealTypes as $mealType) : 
+   	 			constructSelectOption("", $mealType->vars["id"], $mealType->vars["name"]);
+   	 		endforeach; ?>
+   	 		
+   	 		</select> <?php addSubmitButtonWithActions("Add Meal Type", array("action" => "addMealType")); ?>
+   	 		
+   	 		
+   	 		<?php foreach($controller->mealTypesForRecipe() as $mealType) : 
+   	 				echo $mealType->vars["name"] . ", ";
+   	 		endforeach; ?>
+   	 		
+   	 		
+            </div>
+            <div>
+            	<table>
+            		<tr>
+            			<td>
+            			</td>
+            		</tr>
+            	</table>
+            </div>
+        </div>
+    </div>
+	 <!-- Images -->
+    <div id="editImages" class="editSection">
+        <div class='section-header'>Recipe Images</div>
+        <div class='section-content'>
+        <?php
+            $images = array();  
+          
+           
+            if ($controller->currentEntity()->relationshipForName("recipeimages"))
+            {
+            	debugln("i am here");
+                $images = $controller->currentEntity()->arrayValueForRelationship("recipeimages");
+            }
+            else{
+            	debugln("i am not here");
+            }
+            
+            debugln("HOw many images do i have " . count($images));
+            
+            if (count($images) > 0) : ?>
+
+                <table id="imagesTable">
+					<thead>
+						<tr>
+							<th>Image</th>
+							<th>Primary</th>
+							<th>Options</th>
+						</tr>
+					</thead>
+                    
+					<tbody>
+	                <?php foreach ($images as $image) : ?>
+	                    <tr>
+	                        <td>
+	                            <img src="<?php echo $image->thumbnailImagePath(); ?>" class="editform" />
+	                        </td>	
+							<td>
+								<?php addRadioButton("currentEntity.mainImageID", $image->field("id"), $controller->formValueForKeyPath("currentEntity.mainImageID")); ?>
+							</td>
+	                        <td class="submitColumn">
+	                            <?php addSubmitButtonWithActions("Delete", array("page" => "RecipeEdit", "action" => "deleteRelatedRecord",
+	                                "selectedImageID" => $image->field("id"), "type" => "Image"), "small", null, "confirmDelete('image')");
+	                            ?>
+	                        </td>
+	                    </tr>	
+	            	<?php endforeach; ?>
+					</tbody>
+                </table>
+                
+            <?php else : ?>
+                
+                <p>No Images</p>
+                
+            <?php endif; ?>	
+        </div>
+    </div><!-- EditImages -->
+
+    <!-- Image Upload -->
+    <div id="editUploadImages" class="editSection">
+        <div class='section-header'>Upload Images</div>
+        <div class='newImageUpload section-content'>
+                <input type="file" name="image" value="" id="image1" />
+            <?php addSubmitButtonWithActions("Upload", array("page" => "RecipeEdit", "action" => "processImages"), "small", null, null, ! $controller->currentEntity()->primaryKeys); ?>
+        </div>
+    </div>
+	 <div id="editIngredients" class="Ingredients">
+	 	<div class='section-header'><span style="float:right;"><?php addSubmitLinkWithActions("mainForm",  array("action" => "createIngredient"), null, "images/plusIcon.png", "smallIcon"); ?></span>Ingredients</div>
+        <div class='section-content'> 
+        	<table>	
+        		<tr>
+        			<td>
+        				
+        			</td>
+        			<td>
+        			</td>
+        		<tr>
+        			<?php $ingredients = $controller->currentEntity()->sortedIngredients(); 
+            foreach($ingredients as $ingredient) : 
+            	  ?>
+        		<tr>
+        			<td><?php addSubmitLinkWithActions("mainForm",  array("action" => "doNothing", "selectedIngredient"=>$ingredient->vars["id"]), null, "images/edit.png", "smallIcon"); ?></td>
+        			<td><?php echo $ingredient->vars["sortID"] ?></td>
+        			<td><input type="text" name="blah" value="<?php echo $ingredient->vars["descText"] ?>" placeholder="Please insert ingredient"  <?php $controller->isCurrentIngredient($ingredient->vars["id"]) ? "" : print "disabled" ?>></td>
+        			<td><?php addSubmitLinkWithActions("mainForm",  array("action" => "deleteIngredient", "objectForDeletionID"=>$ingredient->vars["id"]), null, "images/trash.png", "smallIcon"); ?></td>
+        		<tr>
+        		<?php endforeach; ?>
+        	</table>
+        </div>
+	 </div>
+	  
+	 <div id="editInstructions" class="Instructions">
+	 	<div class='section-header'><span style="float:right;"><?php addSubmitLinkWithActions("mainForm",  array("action" => "createInstruction"), null, "images/plusIcon.png", "smallIcon"); ?></span>Instructions</div>
+        	<table>	
+        		<tr>
+        			<td>
+        				
+        			</td>
+        			<td>
+        			</td>
+        		<tr>
+        			<?php $instructions = $controller->currentEntity()->sortedInstructions(); 
+            foreach($instructions as $instruction) : 
+            	  ?>
+        		<tr>
+        			<td><?php addSubmitLinkWithActions("mainForm",  array("action" => "doNothing", "selectedInstruction"=>$instruction->vars["id"]), null, "images/edit.png", "smallIcon"); ?></td>
+        			<td><?php echo $instruction->vars["sortID"] ?></td>
+        			<td><input type="text" name="blah" value="<?php echo $instruction->vars["descText"] ?>" placeholder="Please insert instruction" <?php $controller->isCurrentInstruction($instruction->vars["id"]) ? "" : print "disabled" ?>> </td>
+        			<td><?php addSubmitLinkWithActions("mainForm",  array("action" => "deleteInstruction", "objectForDeletionID"=>$instruction->vars["id"]), null, "images/trash.png", "smallIcon"); ?></td>
+        		<tr>
+        		<?php endforeach; ?>
+        	</table>
+        </div>
+	 </div>
+	  <div id="editComments" class="Comments">
+	 	<div class='section-header'><span style="float:right;"><?php addSubmitLinkWithActions("mainForm",  array("action" => "createComment"), null, "images/plusIcon.png", "smallIcon"); ?></span>Comment</div>
+        	<table>	
+        		<tr>
+        			<td></td>
+        			<td></td>
+        		<tr>
+        			<?php $comments = $controller->currentEntity()->sortedComents(); 
+            		foreach($comments as $comment) : 
+            	  ?>
+        		<tr>
+        			<td><?php addSubmitLinkWithActions("mainForm",  array("action" => "doNothing", "selectedCommentID"=>$comment->vars["id"]), null, "images/edit.png", "smallIcon"); ?></td>
+        			<td><input type="text" name="selectedComment.comment" id="selectedComment.comment" value="<?php echo $comment->vars["comment"] ?>" placeholder="Please insert comment" <?php debugln("isCurrentComment: " . $controller->isCurrentComment($comment->vars["id"])); $controller->isCurrentComment($comment->vars["id"]) ? "" : print "disabled" ?> > </td>
+        			<td><?php addSubmitLinkWithActions("mainForm",  array("action" => "deleteComment", "objectForDeletionID"=>$comment->vars["id"]), null, "images/trash.png", "smallIcon"); ?></td>
+        		<tr>
+        		<?php endforeach; ?>
+        	</table>
+        </div>
+	 </div>
+	 
+	
+
+   
+                
+</div>
+

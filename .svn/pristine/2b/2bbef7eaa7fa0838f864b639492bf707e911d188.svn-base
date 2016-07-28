@@ -1,0 +1,39 @@
+<input type='hidden' name='selectedImageID' id='selectedImagaeID' value=''/>
+<input type="hidden" name="type" value="" id="type"/>
+
+<div id="editDiv">
+    
+    <div id="tableTitle">
+        Edit User
+        <!-- Save -->
+        <div id="editSubmit">
+            <?php addSubmitButtonWithActions("Delete", array("page" => "UserEdit", "action" => "delete"), null, null, "confirmDelete()"); ?>
+            &nbsp;|&nbsp;
+            <?php 
+                addSubmitButtonWithActions("Back", array("page" => "UserEdit", "action" => "cancel"));
+                addSubmitButtonWithActions("Save", array("page" => "UserEdit", "action" => "save"));
+            ?>
+        </div>
+        <div class="clear" ></div>
+    </div>
+    
+    <!-- Details -->
+    <div id="editDetails" class="editSection">
+        <div class='section-header'>User Details</div>
+        <div class='section-content'>
+            <table id="editDetailsTable">
+                <?php
+                    printEditForm(array(
+                      "Given" => array("type" => "text", "keypath" => "currentEntity.given"),
+                      "Surname" => array("type" => "text", "keypath" => "currentEntity.surname"),
+                      "Login" => array("type" => "text", "keypath" => "currentEntity.login"),
+                      "Password" => array("type" => "text", "keypath" => "currentEntity.password"),
+                    
+                    ), $controller, array("labelClass" => "labels"));
+                ?>
+            </table>	
+        </div>
+    </div>
+                
+</div>
+

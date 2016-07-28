@@ -1,0 +1,68 @@
+/* 
+    Document   : edit.css
+    Created on : 26/03/2014
+    Author     : Oliver Jacobs
+    Description:
+        CSS Markup for data editing forms.  Generally used here for admin purposes,
+*/
+
+#editDiv {
+    width: 700px;
+    margin: auto;
+    overflow: hidden;
+}
+
+#imagesTable {
+	width:100%;
+}
+#imagesTable td {
+	text-align:center;
+}
+
+#imagesTable td img {
+	border:1px solid #ddd;
+}
+
+/* HEADER */
+
+#editSubmit {
+    float: right;
+}
+
+
+textarea {
+	height:100px;
+}
+
+/* SECTIONS */
+.editSection {
+    border: thin solid #5C7680;
+    background: #F9F9F9;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.section-header {
+    background: #5C7680;
+    color: white;
+    font-size: 1.1em;
+    font-weight: normal;
+    padding: 5px;
+    line-height: 1.5em;
+}
+
+.section-content {
+    padding: 10px;
+}
+
+
+
+/* Section Tables */
+.editSection table {
+    width: 100%;
+}
+
+
+.textEntry {
+    width:100% !important;
+}
