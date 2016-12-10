@@ -15,6 +15,7 @@
 		*/
 		public function handleRequest()
 		{
+			debugln("i'm being handled gay");
             $page = parent::handleRequest();
             if (! $page)
             {

@@ -1,0 +1,63 @@
+<style>
+	.imageProfilePanel{
+		float:left;
+		width:400px;
+	}
+	
+	.detailsPanel{
+		float:left;
+		width:200px;
+	}
+	
+</style>
+
+<div class="actionsBar">
+        <!-- Save -->
+           <?php 
+                addSubmitButtonWithActions("Back", array("page" => "MyProfileEdit", "action" => "cancel"));
+                addSubmitButtonWithActions("Save", array("page" => "MyProfileEdit", "action" => "save"));
+            ?>
+        </div>
+        <div class="clear" ></div>
+    </div>
+<div>
+	<div class="imageProfilePanel">
+		<?php
+			$width = 200;
+			$height = 200;
+			$src = "images/NoImage.jpg";
+			
+			$currentUser = $controller->currentUser();
+			if($currentUser->hasProfileImage()){
+				debugln("ga ga ga goat");	
+				$profileImage = $currentUser->valueForRelationship("profileimage");
+				$dimensions = proportionalWidthAndHeight($profileImage->field("width"), $profileImage->field("height"), 200);
+				$width = $dimensions["width"];
+				$height = $dimensions["height"];
+				$src = domainName()."/getImage.php?id=".$profileImage->field("fileID") ."&key=imagePath&entity=ProfileImage";
+			} 
+			else{
+				debugln("has now profile iMage");
+			}
+		?>
+		<img width="<?php echo $width; ?>" src="<?php echo $src ?>" class="editform" />
+		
+		<input type="file" name="profileImage" value="" id="image1" />
+		<?php addSubmitButtonWithActions("Upload", array("page" => "MyProfileEdit", "action" => "processImage"), "small", null, null, null); ?>
+	</div>
+	<div class="detailsPanel">
+		<table>
+			<tr>
+				<td>Name:</td>
+				<td><input type="text" name="currentEntity.given" value="<?php echo $controller->currentUser()->field("given") ?> "></td>
+			</tr>
+			<tr>
+				<td>Surname</td>
+				<td><input type="text" name="currentEntity.surname" value="<?php echo $controller->currentUser()->field("surname") ?> "></td>
+			</tr>
+		
+		</table>
+		 
+		
+	</div>
+</div>

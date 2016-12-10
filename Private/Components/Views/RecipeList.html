@@ -19,10 +19,15 @@
     $headers = $controller->headers();
 ?>
 
+
 <div id="resultsList">
        <div class="toolbar">
         <div class="toolbar-buttons">
-            <?php addInputButtonWithActions("Add Recipe", array(), null, null, 'addRecipe()'); ?>
+        	<!--  this is how to call a JS function -->
+            <?php addInputButtonWithActions("Add Recipe JS", array(), "button-primary", null, 'addRecipe()'); ?> 
+            
+            <?php addSubmitButtonWithActions("Add Recipes", array("action" => "createRecipe")); ?>
+            
         </div>
     </div>
 
@@ -37,20 +42,30 @@
             <tr>
             	
             	<?php foreach ($displayGroup->objects() as $row) : ?>
-            	<td> 
+            	<td width="210px;"> 
             		<div class=recipeContainer>
+					<div>
+						<?php echo $row->field("name"); ?>
+					</div>
 					<div class =recipeImage>
-						<img src="<?php echo $row->valueForRelationship("mainImage")->thumbnailImagePath(); ?>" class="editform" />	
+						<?php if($row->valueForRelationship("mainImage")) : ?>
+							<?php $dimensions = proportionalWidthAndHeight($row->valueForRelationship("mainImage")->field("width"), $row->valueForRelationship("mainImage")->field("height"), 200); ?>
+	                        <img width="<?php echo $dimensions["width"]; ?>" src="<?php echo domainName()."/getImage.php?id=".$row->valueForRelationship("mainImage")->field("fileID")."&key=imagePath&entity=RecipeImage"; ?>" class="editform" />
+						
+						<?php else: ?>
+							<img width="200" src="/images/NoImage.jpg" />
+						
+						<?php endif; ?>
 					</div>	
 					<div class="recipeActions">
-						<span style="float:right;"><?php 
+						<span style="float:left;"><?php 
 							addSubmitLinkWithActions("mainForm",  array("page" => "RecipeList", "action" => "likeRecipeToggle", "likeRecipeID" => $row->vars["id"]), null, $controller->likesImageString($row), "smallIcon"); ?></span>
 						<span><?php addLinkWithParams("Edit", "RecipeEdit/" . $row->field("id"), array()); ?>
 					</div>
 					
 				</td>	
             	<?php endforeach; ?>
-            <tr>
+            </tr>
         </table>
     </div>
 

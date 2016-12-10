@@ -102,7 +102,9 @@
     		else
     			$lowres->thumbnailImage(0, 180);
     		file_put_contents($image->thumbnailImagePath(), $lowres);
-        } */
+        
+
+		} */
     
         /*******************************************/
     }

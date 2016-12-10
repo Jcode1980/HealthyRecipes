@@ -128,5 +128,11 @@
 			}
 			
 		}
+		
+		public function createRecipe(){
+			//debugln("createRecipe Action");
+			$newRecipe = BLGenericRecord::newRecordOfType("Recipe");
+			
+		}
     }
 ?>

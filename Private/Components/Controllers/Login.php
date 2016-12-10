@@ -81,6 +81,8 @@
 				new BLKeyValueQualifier("login", OP_EQUAL, $login),
 				new BLKeyValueQualifier("password", OP_EQUAL, $password),
 			);
+			
+			debugln("this is my quals:" . print_r($quals));
 			$result = BLGenericRecord::find("User", new BLAndQualifier($quals), null, array("limit" => 1));
 			
 			if (sizeof($result) == 1)

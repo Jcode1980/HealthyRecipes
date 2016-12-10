@@ -6,8 +6,9 @@
 	 
 	//Created, deleted, fildID (PK), fileName, hasFile, hashedID, mimType, type
 	require_once BLOGIC."/BLogic.php"; 
- 
-	class RecipeImage extends BLGenericRecord 
+	require_once ROOT."/Entities/File.php";
+	
+	class RecipeImage extends File 
 	{ 
 		public static $TYPE = 1;
 		
@@ -15,7 +16,7 @@
 		{ 
 			parent::__construct($dataSource); 
 			$this->vars["created"] = date("y/m/d");
-			$this->vars["type"] = RecipeImage::$TYPE;
+			//$this->vars["type"] = RecipeImage::$TYPE;
 		} 
 	 
 		public function tableName() 
@@ -26,6 +27,10 @@
 		public function pkNames() 
 		{ 
 			return "fileID"; 
+		}
+		
+		public function type(){
+			return RecipeImage::$TYPE;
 		}
 		
 		/*
@@ -44,35 +49,39 @@
 			
 		}
 		
-		
-		
-		public function filePath(){
+// 		public function imagePath(){
+// 			return $this->filePath();
+// 		}
+	
+// 		public function filePath(){
 			
-			//return "/Users/john/Sites/Upload/" . $this->vars["fileID"];
+// 			//return "/Users/john/Sites/Upload/" . $this->vars["fileID"];
 
-			$filePath = PRODUCTION_FOLDER . $this->vars["fileID"];
-			debugln("this is the production folder: " . $filePath);
+// 			$filePath = FILES_PRODUCTION_FOLDER .$this->className() . "/" . $this->vars["fileID"];
+// 			debugln("this is the production folder: " . $filePath);
 
-			return $filePath;
+// 			return $filePath;
 			
-		}
+// 		}
 		
-		//could this be added to base object ?
-		public static function objectForID($encryptedID){
-			$id = doDecrypt($encryptedID);
-			debugln("this is the id:" . $id);
-			if ($id) {
-				return BLGenericRecord::recordMatchingKeyAndValue("File", "fileID", $id);
-			}
-			else{
-				return null;
-			}
-		}
+// 		//could this be added to base object ?
+// 		public static function objectForID($encryptedID){
+// 			$id = doDecrypt($encryptedID);
+// 			debugln("this is the id:" . $id);
+// 			if ($id) {
+// 				return BLGenericRecord::recordMatchingKeyAndValue("File", "fileID", $id);
+// 			}
+// 			else{
+// 				return null;
+// 			}
+// 		}
 
-	public function thumbnailImagePath(){
-		//return $this->filePath();
-		return  "images/template/page-1_img06.jpg";
-	}
+// 	public function thumbnailImagePath(){
+// 			$filePath = PREVIEW_FOLDER . $this->vars["fileID"];
+// 			debugln("this is the preview folder: " . $filePath);
+
+// 			return $filePath;
+// 	}
 		
 		
 	}

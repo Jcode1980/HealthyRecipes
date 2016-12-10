@@ -46,12 +46,14 @@
     define("BL_DEFAULT_PAGE_ID", "page");
     define("BL_DEFAULT_ACTION_ID", "action");
     
+    
 	if (DEPLOYED || TESTING)
 	{
 		$level = TESTING ? 1 : 0;
 		setDebugLogging($level);
 		
-		$domain = "mynewsite.com";
+		$domain = "http://www.healthykitch.com";
+		
 		if (TESTING) {
 			$domain .= "/test";
         } 
@@ -70,18 +72,26 @@
 		// add your developer email address to this array to receive critical 
 		// error reports from the production server.
 		installGeneralErrorHandlers(array("john@sqonk.com.au"), "error.html");
+
+		
+		//moved to public settings
+// 		define("FILES_PRODUCTION_FOLDER", ROOT_PRODUCTION_FOLDER . "files/");
+// 		define("FILE_PREVIEWS_PRODUCTION_FOLDER", ROOT_PRODUCTION_FOLDER . "file_previews/");
 	}
 	else
 	{
 		// This will gracefully load custom configs from a file with the developer's machine host name,
 		// short circuiting problems caused by certain settings that are different between people.
-        
+		//$domain = "http://jpado1.local:9000";
         $hostname = php_uname("n");
 		$developer_custom_settings_file = "../dev/_$hostname.settings.php";
 		if (file_exists($developer_custom_settings_file))
 		    require_once $developer_custom_settings_file;
 		
-		define("PRODUCTION_FOLDER", "/Users/john/Sites/Upload/");
+// 		define("ROOT_PRODUCTION_FOLDER", "/Users/john/Sites/Upload/HealthyRecipes/");
+// 		define("FILES_PRODUCTION_FOLDER", ROOT_PRODUCTION_FOLDER . "files/");
+// 		define("FILE_PREVIEWS_PRODUCTION_FOLDER", ROOT_PRODUCTION_FOLDER . "file_previews/");
+		
 	}
 	
 	/* The app name and domain name the site operates under. The domain name

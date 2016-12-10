@@ -38,12 +38,17 @@
                     $this->currentRecipe = BLGenericRecord::recordMatchingKeyAndValue("Recipe", "id", $this->id);
                 } 
                 else {
+                	debugln("Creating a recipe");
                     $this->currentRecipe = BLGenericRecord::newRecordOfType("Recipe");
+                    $this->currentRecipe->save();
+                    $this->id = $this->currentRecipe->field("id");
+                    $bl_url_args[0] = $this->id;
                 }
             } 
 			else{
-				debugln("class name: " . get_class($this->currentRecipe));
-				debugln("currentRecipe is set?? " . $this->currentRecipe->vars["id"]);
+				
+				
+				debugln("currentRecipe is set?? ");
 			}
             return $this->currentRecipe;
         }
@@ -77,6 +82,14 @@
 
    				if($this->selectedComment()){
                 	$this->selectedComment()->save();
+                }
+                
+                if($this->selectedIngredient()){
+                	$this->selectedIngredient()->save();
+                }
+                
+                if($this->selectedInstruction()){
+                	$this->selectedInstruction()->save();
                 }
             }
     		catch (Exception $error) {
@@ -203,7 +216,7 @@
 
 		public function isCurrentIngredient($ingredientID){
 			$selectedIngredientID =  doDecrypt($this->formValueForKey("selectedIngredientID"));
-			//debugln("this is the selectedCOmment: " . $selectedIngredientID);
+			debugln("this is the selectedIngredient: " . $selectedIngredientID);
 			
 			return (isset($selectedIngredientID) && $selectedIngredientID == $ingredientID);
 		}
@@ -224,30 +237,43 @@
 		}
 
 		public function selectedIngredient(){
+			debugln("selectedIngredient 1");
 			if (!$this->selectedIngredient) 
             {
-				//debugln("my id is: " . $this->id);
+				
 				$selectedIngredientID = doDecrypt($this->formValueForKey("selectedIngredientID"));
-
+				debugln("my selected ingredient is: " . $selectedIngredientID);
+				
                 if (isset($selectedIngredientID) && is_numeric($selectedIngredientID)) 
                 {
                     $this->selectedIngredient = BLGenericRecord::recordMatchingKeyAndValue("Ingredient", "id", $selectedIngredientID);
-                } 
+                }
+
+                debugln("selectedIngredient 1"  .  get_class($this->selectedIngredient));
             } 
             return $this->selectedIngredient;
 		}
 
 		public function selectedInstruction(){
+			
 			if (!$this->selectedInstruction) 
             {
 				//debugln("my id is: " . $this->id);
-				$selectedIngredientID = doDecrypt($this->formValueForKey("selectedInstructionID"));
+				$selectedInstructionID = doDecrypt($this->formValueForKey("selectedInstructionID"));
 
                 if (isset($selectedInstructionID) && is_numeric($selectedInstructionID)) 
                 {
                     $this->selectedInstruction = BLGenericRecord::recordMatchingKeyAndValue("Instruction", "id", $selectedInstructionID);
+                    debugln("my insturciton id is: " . $this->selectedInstruction->field("id"));
                 } 
+                else{
+                	debugln("instruction not set");
+                }
+                
+                debugln("selectedInstruction 1: returning: " .  get_class($this->selectedInstruction));
             } 
+            
+           
             return $this->selectedInstruction;
 		}
 
@@ -289,22 +315,6 @@
         }
      
     
-        /*
-         * Called after image copied to disk
-         * Process any additional actions - e.g. low res thumbnail copy etc.
-         */
-        
-        protected function imageSaved($image) {
-        	//Fix me 
-//         	debugln("imageSaved being called");
-        	
-//     		$lowres = new Imagick($image->imagePath());
-//     		if ($image->field("width") > $image->field("height"))
-//     			$lowres->thumbnailImage(180, 0);
-//     		else
-//     			$lowres->thumbnailImage(0, 180);
-//     		file_put_contents($image->thumbnailImagePath(), $lowres);
-        } 
         
       
         

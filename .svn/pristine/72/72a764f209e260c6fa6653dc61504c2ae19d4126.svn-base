@@ -1,7 +1,0 @@
-<table width="100%" border=0> 
-	<tr> 
-		<td align=center valign=middle height=400> 
-			Welcome <?php echo $controller->user()->field("given"); ?>
-		</td> 
-	</tr> 
-</table>

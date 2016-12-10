@@ -1,4 +1,4 @@
-<?php 
+	<?php 
 	require_once BLOGIC."/BLogic.php"; 
 	require_once ROOT."/Components/Controllers/SessionController.php";
 		
@@ -65,7 +65,7 @@
             return domainName()."/".$this->className();
         }
         
-        public function uploadImages($inputName = 'image', $imageEntityName = 'Image', $joinKey = null)
+        public function uploadImages($inputName = 'image', $imageEntityName = 'Image', $joinKey = null, $parentJoinKey =null)
         {
         	$entity = $this->currentEntity();
         	debugln("this is the entity: " . get_class($entity));
@@ -165,12 +165,25 @@
         				$this->errorMessage = "Sorry there was a problem uploading the file $name. Please try again.";
         				return;
         			}
+        			debugln("doing image svaed:");
         			$this->imageSaved($newImage);
         		}
         	}
         	else{
         		debugln("No files to be uploaded");
         	}
+        }
+        
+        protected function imageSaved($image) {
+        
+        	debugln("imageSaved being called");
+        	 
+        	$lowres = new Imagick($image->imagePath());
+        	if ($image->field("width") > $image->field("height"))
+        		$lowres->thumbnailImage(180, 0);
+        	else
+        		$lowres->thumbnailImage(0, 180);
+        	file_put_contents($image->thumbnailImagePath(), $lowres);
         }
 	} 
 ?>

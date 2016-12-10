@@ -15,6 +15,7 @@
 			$this->defineRelationship(new BLToManyRelationship("recipeimages", $this, "RecipeImage", "id", "recipeID"));
 			$this->defineRelationship(new BLToOneRelationship("mainImage", $this, "RecipeImage", "mainImageID", "fileID"));
 			$this->defineRelationship(new BLToManyRelationship("comments", $this, "Comment", "id", "recipeID"));
+			$this->defineRelationship(new BLToManyRelationship("instructions", $this, "Instruction", "id", "recipeID"));
 			
 		} 
 	 
@@ -78,9 +79,8 @@
 			$newIngredient->vars["recipeID"] = $this->vars["id"];
 		
 			$lastIngredient = $this->lastIngredient();
-				
-			debugln("goat ass: " .  $lastIngredient->vars["sortID"]);
-			$sortID =  $lastIngredient ? $lastIngredient->vars["sortID"] + 1 : 1;
+			$sortID =  $lastIngredient ? $lastIngredient->field("sortID") + 1 : 1;
+			
 			$newIngredient->vars["sortID"] = $sortID;
 				
 			return $newIngredient;
@@ -88,8 +88,14 @@
 		}
 		
 		public function lastIngredient(){
+			
 			$currentIngredients = $this->sortedIngredients();
-			return end($currentIngredients);
+			if(count($currentIngredients) > 0){
+				return end($currentIngredients);
+			}
+			else{
+				return null;
+			}
 		}
 		
 	
@@ -125,10 +131,15 @@
 		}
 		
 		public function mealTypes(){
+			$id = $this->field("id");
 			$mealTypes = array();
 			
+			if(!$id){
+				return $mealTypes;
+			}
+			
 			$qual = new BLAndQualifier(array(
-					new BLKeyValueQualifier("recipeID", OP_EQUAL, $this->vars["id"]),
+					new BLKeyValueQualifier("recipeID", OP_EQUAL, $id),
 			));
 			$foundMealTypeRecipes = BLGenericRecord::find("MealTypeRecipe", $qual);
 

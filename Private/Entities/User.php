@@ -14,6 +14,8 @@ require_once BLOGIC."/BLogic.php";
 			parent::__construct($dataSource); 
             
             $this->vars["created"] = mysql_date();
+            
+            $this->defineRelationship(new BLToOneRelationship("profileimage", $this, "ProfileImage", "profileImageID", "fileID"));
 		} 
 	 
 		public function tableName() 
@@ -78,6 +80,12 @@ require_once BLOGIC."/BLogic.php";
 		{
 			return array("id");
 		}	
+		
+		public function hasProfileImage() {
+			$id = $this->field("profileImageID");
+			//if ($id === 0) strict type check example.
+			return ($id != "");
+		}
 		
 		/* 	Override this method if you have any database fields that deal in
 			raw binary data.

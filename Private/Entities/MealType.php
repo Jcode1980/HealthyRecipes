@@ -8,6 +8,13 @@
 	 
 	class MealType extends BLGenericRecord 
 	{ 
+		public static $BREAKFAST = 1;
+		public static $LUNCH = 2;
+		public static $DINNER = 3;
+		public static $DESSERT = 4; 
+		
+		public static $MAIN_MEAL_QUALS = null;	
+
 		public function __construct($dataSource = null) 
 		{ 
 			parent::__construct($dataSource); 
@@ -35,7 +42,12 @@
 		}	
 		
 		
-		
+		public static function mainMealTypes(){
+			
+			$quals = new BLKeyValueQualifier("id", OP_IN, array(MealType::$BREAKFAST, MealType::$LUNCH, MealType::$DINNER));
+			return BLGenericRecord::find("MealType", $quals, null);
+		}		
+
 		public static function allMealTypes(){
 			return BLGenericRecord::find("MealType", null);
 		}

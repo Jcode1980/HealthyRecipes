@@ -1,0 +1,2 @@
+[Sat Sep 10 15:18:46.986370 2016] [:error] [pid 10150] [client 220.233.40.149:43785] PHP Warning:  require_once(../Private/settings.php): failed to open stream: No such file or directory in /home/healthykitch/public_html/settings.php on line 40
+[Sat Sep 10 15:18:46.986438 2016] [:error] [pid 10150] [client 220.233.40.149:43785] PHP Fatal error:  require_once(): Failed opening required '../Private/settings.php' (include_path='.:/usr/share/php:/usr/share/pear') in /home/healthykitch/public_html/settings.php on line 40

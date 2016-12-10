@@ -15,18 +15,25 @@
 		*/
 		public function handleRequest()
 		{
+
+			
             $page = parent::handleRequest();
             if (! $page)
             {
     			$lastRequest = safeValue($_SESSION, "LAST_REQUEST");
     			if ($lastRequest == "")
     				$lastRequest = 0;
+
     			$timedOut = (time()-$lastRequest) > 3600; // 1 hour idle timeout
-    			$error = "";
+    			debugln("i'm being handled gay gay: lastRequest: " . $lastRequest .  " timedout: " . ($timedOut ? 'true' : 'false') . "  time out value: " . (time()-$lastRequest));
+								
+
+				$error = "";
 			
     			if ($timedOut)
     			{
-    				$error = "For security reasons your session timed out as it was idle for too long. Please log in again.";
+					debugln("i'm timing out");
+    				$error = "Forr security reasons your session timed out as it was idle for too long. Please log in again.";
     			}
     			else if (empty($_SESSION["userID"]) || ! isset($_SESSION["SERVER_GENERATED_SID"]))
     			{

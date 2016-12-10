@@ -244,5 +244,29 @@
 		{
 			parent::uploadImages($inputName, $imageEntityName, $joinKey = null);
 		}
+		
+		
+		/**
+		 * Save Entity
+		 */
+		public function save()
+		{
+			$this->processFormValueKeyPathsForSave();
+			try {
+				$this->currentEntity()->save();
+			}
+			catch (Exception $error) {
+				debugln($error->getMessage());
+				$this->errorMessage = "There was a problem saving changes to this item. Please try again.";
+				return;
+			}
+		
+			$this->alertMessage = "Changes have been saved.";
+		
+			if (! $this->id) {
+				$id = $this->currentEntity()->field($this->currentEntity()->pkNames());
+				$this->goToLocation(null, array($id));
+			}
+		}
 	} 
 ?>
